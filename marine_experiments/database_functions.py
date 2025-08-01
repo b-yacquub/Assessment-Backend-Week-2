@@ -3,6 +3,7 @@
 from psycopg2 import connect
 from psycopg2.extras import RealDictCursor
 from psycopg2.extensions import connection
+from psycopg2 import sql
 
 
 def get_db_connection(dbname,
@@ -25,9 +26,9 @@ def get_subject(conn: connection):
         return cur.fetchall()
 
 
-def get_experiment(conn: connection):
+def get_experiment(conn: connection, type: str = None, score_over: int = None):
     with conn.cursor() as cur:
-        query = '''SELECT
+        query = ('''SELECT
     e.experiment_id,
     e.subject_id,
     sp.species_name AS species,
@@ -41,11 +42,42 @@ FROM
     experiment e
 JOIN subject s USING(subject_id)
 JOIN experiment_type et USING(experiment_type_id)
-JOIN species sp USING(species_id)
-ORDER BY e.experiment_date DESC;'''
+JOIN species sp USING(species_id)''')
+        params = []
+
+        if type:
+            query += (f" where et.type_name = '{type}'")
+            params.append(type)
+
+        if score_over is not None:
+            query += (
+                f" AND e.score::numeric / et.max_score * 100 > {score_over}")
+            params.append(score_over)
+
+        query += (" ORDER BY e.experiment_date DESC")
         cur.execute(query)
+
         return cur.fetchall()
 
 
-# conn = get_db_connection("marine_experiments")
-# print(get_experiment(conn))
+def delete(conn: connection, id):
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        cur.execute(
+            "SELECT experiment_id, experiment_date FROM experiment WHERE experiment_id = %s",
+            (id,)
+        )
+        experiment = cur.fetchone()
+
+        if not experiment:
+            return False
+
+        cur.execute(
+            "DELETE FROM experiment WHERE experiment_id = %s", (str(id)))
+        conn.commit()
+
+        experiment_date = experiment["experiment_date"].strftime("%Y-%m-%d")
+        return experiment_date
+
+
+conn = get_db_connection("marine_experiments")
+print(delete(conn, 3))
