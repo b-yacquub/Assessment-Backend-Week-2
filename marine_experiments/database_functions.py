@@ -26,7 +26,7 @@ def get_subject(conn: connection):
         return cur.fetchall()
 
 
-def get_experiment(conn: connection, type: str = None, score_over: int = None):
+def get_experiment(conn: connection, type_experiment: str = None, score_over: int = None):
     with conn.cursor() as cur:
         query = ('''SELECT
     e.experiment_id,
@@ -44,15 +44,19 @@ JOIN subject s USING(subject_id)
 JOIN experiment_type et USING(experiment_type_id)
 JOIN species sp USING(species_id)''')
         params = []
+        if type_experiment is not None:
+            query += (f" where et.type_name = '{type_experiment.lower()}'")
+            params.append(type_experiment)
+            if score_over is not None:
+                query += (
+                    f" and e.score::numeric / et.max_score * 100 > {score_over}")
+                params.append(score_over)
 
-        if type:
-            query += (f" where et.type_name = '{type}'")
-            params.append(type)
-
-        if score_over is not None:
-            query += (
-                f" AND e.score::numeric / et.max_score * 100 > {score_over}")
-            params.append(score_over)
+        if type_experiment is None:
+            if score_over != None:
+                query += (
+                    f" where e.score::numeric / et.max_score * 100 > {score_over}")
+                params.append(score_over)
 
         query += (" ORDER BY e.experiment_date DESC")
         cur.execute(query)
@@ -79,5 +83,5 @@ def delete(conn: connection, id):
         return experiment_date
 
 
-conn = get_db_connection("marine_experiments")
-print(delete(conn, 3))
+# conn = get_db_connection("marine_experiments")
+# print(get_experiment(conn, score_over=90))
