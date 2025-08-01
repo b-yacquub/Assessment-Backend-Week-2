@@ -83,5 +83,24 @@ def delete(conn: connection, id):
         return experiment_date
 
 
-# conn = get_db_connection("marine_experiments")
-# print(get_experiment(conn, score_over=90))
+def get_experiment_type(conn: connection, experiment_type):
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        query = """
+                select experiment_type_id from experiment_type where type_name=%s
+                """
+        cur.execute(query, [experiment_type])
+        return cur.fetchall()[0]['experiment_type_id']
+
+
+def new_experiment(conn: connection, subject_id: int, experiment_type: str, score: int, experiment_date: str):
+    with conn.cursor(cursor_factory=RealDictCursor) as cur:
+        experiment_type_id = get_experiment_type(conn, experiment_type)
+        query = """
+                INSERT INTO experiment (subject_id, experiment_type_id, score, experiment_date)
+                VALUES (%s,%s,%s,%s);
+                """
+        cur.execute(query, [subject_id, experiment_type_id,
+                    score, experiment_date])
+        query2 = '''select * from experiment where score=%s'''
+        cur.execute(query2, score)
+        return cur.fetchall()

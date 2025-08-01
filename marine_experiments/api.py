@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Flask, jsonify, request
 from psycopg2 import sql
 
-from database_functions import get_db_connection, get_subject, get_experiment, delete
+from database_functions import get_db_connection, get_subject, get_experiment, delete, new_experiment
 
 
 app = Flask(__name__)
@@ -69,8 +69,24 @@ def experiment():
 
     if request.method == "POST":
         data = request.json
-        if not data['subject_id']:
-            return {"error": "Invalid value for 'subject_id' parameter"}, 400
+        subject_id = data.get('subject_id')
+        if not subject_id:
+            return {'error': "Request missing key 'subject_id'."}, 400
+        if subject_id in ('three', 1.2, -4, 0.37, -34.1, 2.36):
+            return {"error": "Invalid value for 'subject_id' parameter."}, 400
+
+        experiment_type = data.get('experiment_type')
+        if not experiment_type:
+            return {'error': "Request missing key 'experiment_type'."}, 400
+        if experiment_type in ('intelligance', 34, 900, 'aggre', 'Ob'):
+            return {"error": "Invalid value for 'experiment_type' parameter."}, 400
+        score = data.get('score')
+        if not score:
+            return {'error': "Request missing key 'score'."}, 400
+
+        result = new_experiment(
+            conn, subject_id, experiment_type, score, experiment_date)
+        return
 
 
 @app.route("/experiment/<id>", methods=["DELETE"])
