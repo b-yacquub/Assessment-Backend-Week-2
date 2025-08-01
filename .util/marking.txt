@@ -3,17 +3,20 @@ platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
 rootdir: /home/runner/work/Assessment-Backend-Week-2/Assessment-Backend-Week-2/marine_experiments
 collected 100 items
 
-test_api.py FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FF [ 60%]
+test_api.py .........FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF.FF [ 60%]
 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                 [100%]
 
-========================= 99 failed, 1 passed in 9.79s =========================
+======================== 90 failed, 10 passed in 9.81s =========================
 ************* Module api
+marine_experiments/api.py:35:0: C0116: Missing function or method docstring (missing-function-docstring)
+marine_experiments/api.py:35:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 marine_experiments/api.py:3:0: W0611: Unused datetime imported from datetime (unused-import)
-marine_experiments/api.py:5:0: W0611: Unused request imported from flask (unused-import)
 marine_experiments/api.py:6:0: W0611: Unused sql imported from psycopg2 (unused-import)
 ************* Module database_functions
-marine_experiments/database_functions.py:16:0: C0304: Final newline missing (missing-final-newline)
+marine_experiments/database_functions.py:21:0: C0301: Line too long (124/100) (line-too-long)
+marine_experiments/database_functions.py:19:0: C0116: Missing function or method docstring (missing-function-docstring)
+marine_experiments/database_functions.py:28:0: C0116: Missing function or method docstring (missing-function-docstring)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.89/10 (previous run: 7.89/10, +0.00)
+Your code has been rated at 7.88/10 (previous run: 7.88/10, +0.00)
 
