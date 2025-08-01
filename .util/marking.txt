@@ -3,30 +3,37 @@ platform linux -- Python 3.12.11, pytest-8.4.1, pluggy-1.6.0
 rootdir: /home/runner/work/Assessment-Backend-Week-2/Assessment-Backend-Week-2/marine_experiments
 collected 100 items
 
-test_api.py ..........................................................FF [ 60%]
-FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                 [100%]
+test_api.py ............................................................ [ 60%]
+............FFFFFFFFFFFFFFFFFFFFFFFFFFFF                                 [100%]
 
-======================== 42 failed, 58 passed in 10.02s ========================
+======================== 28 failed, 72 passed in 9.47s =========================
 ************* Module api
+marine_experiments/api.py:8:0: C0301: Line too long (101/100) (line-too-long)
 marine_experiments/api.py:35:0: C0116: Missing function or method docstring (missing-function-docstring)
 marine_experiments/api.py:35:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 marine_experiments/api.py:42:0: C0116: Missing function or method docstring (missing-function-docstring)
+marine_experiments/api.py:88:54: E0602: Undefined variable 'experiment_date' (undefined-variable)
+marine_experiments/api.py:42:0: R0911: Too many return statements (9/6) (too-many-return-statements)
 marine_experiments/api.py:42:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-marine_experiments/api.py:77:0: C0116: Missing function or method docstring (missing-function-docstring)
-marine_experiments/api.py:77:17: W0622: Redefining built-in 'id' (redefined-builtin)
-marine_experiments/api.py:80:7: C0121: Comparison 'result == False' should be 'result is False' if checking for the singleton value False, or 'not result' if testing for falsiness (singleton-comparison)
+marine_experiments/api.py:87:8: W0612: Unused variable 'result' (unused-variable)
+marine_experiments/api.py:93:0: C0116: Missing function or method docstring (missing-function-docstring)
+marine_experiments/api.py:93:17: W0622: Redefining built-in 'id' (redefined-builtin)
+marine_experiments/api.py:96:7: C0121: Comparison 'result == False' should be 'result is False' if checking for the singleton value False, or 'not result' if testing for falsiness (singleton-comparison)
 marine_experiments/api.py:3:0: W0611: Unused datetime imported from datetime (unused-import)
 marine_experiments/api.py:6:0: W0611: Unused sql imported from psycopg2 (unused-import)
 ************* Module database_functions
 marine_experiments/database_functions.py:22:0: C0301: Line too long (124/100) (line-too-long)
 marine_experiments/database_functions.py:31:0: C0325: Unnecessary parens after '=' keyword (superfluous-parens)
+marine_experiments/database_functions.py:95:0: C0301: Line too long (110/100) (line-too-long)
 marine_experiments/database_functions.py:20:0: C0116: Missing function or method docstring (missing-function-docstring)
 marine_experiments/database_functions.py:29:0: C0116: Missing function or method docstring (missing-function-docstring)
 marine_experiments/database_functions.py:56:15: C0121: Comparison 'score_over != None' should be 'score_over is not None' (singleton-comparison)
 marine_experiments/database_functions.py:67:0: C0116: Missing function or method docstring (missing-function-docstring)
 marine_experiments/database_functions.py:67:29: W0622: Redefining built-in 'id' (redefined-builtin)
+marine_experiments/database_functions.py:86:0: C0116: Missing function or method docstring (missing-function-docstring)
+marine_experiments/database_functions.py:95:0: C0116: Missing function or method docstring (missing-function-docstring)
 marine_experiments/database_functions.py:6:0: W0611: Unused sql imported from psycopg2 (unused-import)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.85/10 (previous run: 7.85/10, +0.00)
+Your code has been rated at 7.33/10 (previous run: 7.33/10, +0.00)
 
