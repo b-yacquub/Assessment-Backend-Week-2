@@ -27,17 +27,25 @@ def get_subject(conn: connection):
 
 def get_experiment(conn: connection):
     with conn.cursor() as cur:
-        query = '''select e.experiment_id,e.subject_id,sp.species_name as species
-,e.experiment_date,et.type_name as experiment_type,
-ROUND((e.score / 133) * 100, 2) || '%' as score
-from experiment e 
-join subject s using(subject_id)
-join experiment_type et using(experiment_type_id)
-join species sp using(species_id)
-order by e.experiment_date desc;'''
+        query = '''SELECT
+    e.experiment_id,
+    e.subject_id,
+    sp.species_name AS species,
+    TO_CHAR(e.experiment_date,'yyyy-MM-dd')as experiment_date,
+    et.type_name AS experiment_type,
+    ROUND(
+        (e.score / (et.max_score
+        )) * 100, 2
+    ) || '%' AS score
+FROM
+    experiment e
+JOIN subject s USING(subject_id)
+JOIN experiment_type et USING(experiment_type_id)
+JOIN species sp USING(species_id)
+ORDER BY e.experiment_date DESC;'''
         cur.execute(query)
         return cur.fetchall()
 
 
 # conn = get_db_connection("marine_experiments")
-# print(get_subject(conn))
+# print(get_experiment(conn))

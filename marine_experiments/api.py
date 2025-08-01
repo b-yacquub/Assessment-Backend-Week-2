@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Flask, jsonify, request
 from psycopg2 import sql
 
-from database_functions import get_db_connection, get_subject
+from database_functions import get_db_connection, get_subject, get_experiment
 
 
 app = Flask(__name__)
@@ -36,6 +36,13 @@ def subject():
     if request.method == "GET":
         subjects = get_subject(conn)
         return subjects, 200
+
+
+@app.route("/experiment", methods=["GET"])
+def experiment():
+    if request.method == "GET":
+        experiments = get_experiment(conn)
+        return experiments, 200
 
 
 if __name__ == "__main__":
